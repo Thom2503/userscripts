@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+# regex to check if its a youtube link
+regexp = "^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]youtube+)\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$"
+userLink = ARGV[0]
+userLink = userLink.split("&")[0]
+
+# If there are too many arguments dont execute
+if ARGV.length > 1
+	puts "Too many arguments given! Expected 1"	
+	exit
+end
+
+if userLink.match(regexp) 
+	puts "Downloading mp3 audio from '#{userLink}'"
+	exec("youtube-dl --output '~/Documents/music/%(title)s.%(ext)s' -x --audio-format mp3 '#{userLink}'")
+else
+	puts "Incorrect link!"
+	exit
+end
